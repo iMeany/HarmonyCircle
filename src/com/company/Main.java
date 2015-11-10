@@ -13,6 +13,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,14 +21,14 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String __TAB_DIR = "D:\\Dropbox\\Tabs\\Brad Sucks";
+        String __TAB_DIR = "E:\\Dropbox\\Tabs\\Brad Sucks";
         File tabFilesFolder = new File(__TAB_DIR);
 
         char[] n = "C1D2EF3G4A5B".toCharArray();
         char[] s = "CDEFGAB".toCharArray();
 
 
-        // uztaisiit harmoniju apli kâ 2d masîvu
+        // harmony circle as 2d array
         String[][] h = {
                 {"C",   "G",    "D",    "A",    "E",    "B",    "F#",   "C#",   "G#",   "D#",   "A#",   "F"},
                 {"D#",	"A#",	"F",	"C",	"G",	"D",	"A",	"E",	"B",	"F#",	"C#",	"G#"},
@@ -35,12 +36,29 @@ public class Main {
                 {"A",	"E",	"B",	"F#",	"C#",	"G#",	"D#",	"A#",	"F",	"C",	"G",	"D"}
         };
 
+        String[] givenNotes = {"F", "D", "A", "F#"};
 
         for (int j=0; j<4; j++) {
             for (int i=0; i<12; i++) {
-                System.out.print(h[j][i] + " ");
+                if (Arrays.asList(givenNotes).contains(h[j][i])) {
+                    System.out.print("[" + h[j][i] + "]-------");
+                } else {
+                    System.out.print(" " + h[j][i] + " -------");
+                }
+                if (h[j][i].length()==1) {
+                    System.out.print("-");
+                }
             }
             System.out.println();
+
+            if (j != 3 ) {
+                for (int emptyLines=0; emptyLines<4; emptyLines++) {
+                    for (int i=0; i<12; i++) {
+                        System.out.print(" |         ");
+                    }
+                    System.out.println();
+                }
+            }
         }
 
         for (int i=0; i<7; i++) {
@@ -87,19 +105,16 @@ public class Main {
 
     public static String parseChords(File f) {
 
-        String patternStr = "([A-G][#bm]?) +?";
+        String patternStr = "([A-G][#bm]?)\\s+?";
         Pattern ptrn = Pattern.compile(patternStr);
         Matcher m;
         try (BufferedReader br = new BufferedReader(new FileReader(f))) {
             String line;
             while ((line = br.readLine()) != null) {
                 m = ptrn.matcher(line);
-
-                if (m.find() && m.group(0) != null) {
-                    for (int i = 0; i < m.groupCount(); i++) {
-                        System.out.print(m.group(i)+ "-");
-                    }
-                    System.out.println();
+                while (m.find()) {
+                    String group = m.group();
+                    System.out.print(group);
                 }
             }
         } catch (IOException e) {
