@@ -23,8 +23,6 @@ public class Main {
 
         String __TAB_DIR = "E:\\Dropbox\\Tabs\\Brad Sucks";
         File tabFilesFolder = new File(__TAB_DIR);
-
-        char[] n = "C1D2EF3G4A5B".toCharArray();
         char[] s = "CDEFGAB".toCharArray();
 
 
@@ -36,16 +34,20 @@ public class Main {
                 {"A",	"E",	"B",	"F#",	"C#",	"G#",	"D#",	"A#",	"F",	"C",	"G",	"D"}
         };
 
+
         String[] givenNotes = {"F", "D", "A", "F#"};
 
+        String[] scale =     {"C",   "C#",    "D",    "D#",    "E",    "F",    "F#",   "G",   "G#",   "A",   "A#",   "B"};
+        String[] scaleFlat = {"C",   "Db",    "D",    "Eb",    "E",    "F",    "Gb",   "G",   "Ab",   "A",   "Bb",   "B"};
+
         for (int j=0; j<4; j++) {
-            for (int i=0; i<12; i++) {
-                if (Arrays.asList(givenNotes).contains(h[j][i])) {
-                    System.out.print("[" + h[j][i] + "]-------");
+            for (int i = 0; i < 12; i++) {
+                if (Arrays.asList(givenNotes).contains(scale[(7*i+3*j)%12])) {
+                    System.out.print("[" + scale[(7*i+3*j)%12] + "]-------");
                 } else {
-                    System.out.print(" " + h[j][i] + " -------");
+                    System.out.print(" " + scale[(7*i+3*j)%12] + " -------");
                 }
-                if (h[j][i].length()==1) {
+                if (scale[(7*i+3*j)%12].length()==1) {
                     System.out.print("-");
                 }
             }
@@ -54,7 +56,9 @@ public class Main {
             if (j != 3 ) {
                 for (int emptyLines=0; emptyLines<4; emptyLines++) {
                     for (int i=0; i<12; i++) {
-                        System.out.print(" |         ");
+                       // System.out.print(" |         ");
+                        System.out.print(" |           ".substring(0, 1 + 9-emptyLines*2));
+                        System.out.print("/            ".substring(0, 1 + emptyLines*2));
                     }
                     System.out.println();
                 }
